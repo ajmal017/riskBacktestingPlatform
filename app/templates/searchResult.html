@@ -1,0 +1,228 @@
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>华泰期货</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+
+</head>
+
+<body>
+{% include 'flash.html' %}
+    <div class="page-sidebar">
+    <div class="page-sidebar-logo">
+        <a href="javascript:;">
+            <img src="/static/webimages/0-logo.png" alt="华泰期货">
+        </a>
+    </div>
+    <ul class="page-sidebar-list">
+        <li>
+            <h6>
+                <a href="{{ url_for('index') }}">个人主页</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('search')}}">现货查询</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                 <a href="javascript:;">自动交易</a>
+            </h6>
+            <ul class="page-sidebar-select">
+                <li>
+                    <p>
+                        <a href="{{ url_for('trader')}}">手动交易</a>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <a href="javascript:;">程序化交易</a>
+                    </p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('paramInput')}}">回测录入</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('accountManage')}}">多账号管理</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('upload')}}">账号信息上传</a>
+            </h6>
+        </li>
+    </ul>
+</div>
+    <div class="page-header">
+    <div class="page-header-box">
+        <div class="page-header-img">
+            <a href="javascript:;">
+                <img src="static/webimages/head-portrait.jpg" alt="个人头像">
+            </a>
+        </div>
+        <div class="page-header-list">
+            <span>Adamne</span>
+            <ul class="page-header-menu">
+                <li>
+                    <a href="javascript:;">修改密码</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}">安全退出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+    <div class="page-container query-results query-results-two">
+        <div class="query-results-right">
+            <div class="commontitle">
+                <h2>查询结果</h2>
+            </div>
+            <div class="query-results-choice">
+                <button class="query-results-btn">图形</button>
+                <button class="query-results-btn cur">数据</button>
+                <span>收起</span>
+            </div>
+            <div class="query-results-box">
+                <div class="query-results-data">
+                    <div class="query-results-chart" id="query-results-chart"></div>
+                </div>
+                <div class="query-results-data cur">
+                    <table class="query-results-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>矿石品种</th>
+                                <th>Grade</th>
+                                <th>地区</th>
+                                <th>价格</th>
+                                <th>更新时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!--<tr>-->
+                                <!--<td>S0183601</td>-->
+                                <!--<td>PB粉</td>-->
+                                <!--<td>0.615</td>-->
+                                <!--<td>曹妃甸港、澳大利亚</td>-->
+                                <!--<td>1080.0</td>-->
+                                <!--<td>2018.11.08</td>-->
+                            <!--</tr>-->
+                                    {% for i in u %}
+                                     <tr>
+                                      <td>{{ i[0] }}</td>
+                                      <td>{{ i[1] }}</td>
+                                       <td>{{ i[2] }}</td>
+				          <td>{{ i[3] }}</td>
+				    <td>{{ i[4] }}</td>
+				 <td>{{ i[5] }}</td>
+            </tr>
+             {% endfor %}    
+                        </tbody>
+                    </table>
+                    <div class="query-results-page" id="laypage"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-footer">
+    <p>Copyright&copy;2016-2018 Huatai Futures All Rights Reserved</p>
+</div>
+    <script src="/static/js/laypage.js"></script>
+    <script type="text/javascript" src="/static/js/layout.js"></script>
+    <!-- 图表绘制开始 -->
+    <script src="/static/js/echarts.common.min.js"></script>
+    <script>
+        var option_five = {
+            title: {
+                text: '查询结果'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['曹妃甸港、澳大利亚','曹妃甸港、澳大利亚','曹妃甸港、澳大利亚','曹妃甸港、澳大利亚','曹妃甸港、澳大利亚']
+            },
+            grid: {
+                left: '5%',
+                right: '5%',
+                bottom: '0',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2018.11.08','2018.11.09','2018.11.10','2018.11.11','2018.11.12','2018.11.13','2018.11.14']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'曹妃甸港、澳大利亚',
+                    type:'line',
+                    stack: '总量',
+                    data:[1020, 1320, 1001, 1304, 900, 2300, 2010]
+                },
+                {
+                    name:'曹妃甸港、澳大利亚',
+                    type:'line',
+                    stack: '总量',
+                    data:[2200, 1802, 1901, 2304, 2900, 3030, 3100]
+                },
+                {
+                    name:'曹妃甸港、澳大利亚',
+                    type:'line',
+                    stack: '总量',
+                    data:[1050, 2032, 2001, 1504, 1900, 3300, 4100]
+                },
+                {
+                    name:'曹妃甸港、澳大利亚',
+                    type:'line',
+                    stack: '总量',
+                    data:[3200, 3302, 3001, 3304, 3900, 3030, 3020]
+                },
+                {
+                    name:'曹妃甸港、澳大利亚',
+                    type:'line',
+                    stack: '总量',
+                    data:[820, 932, 901, 0934, 1290, 1330, 1320]
+                }
+            ]
+        };
+    </script>
+    <script>  
+        $('.query-results-btn').on('click', function(){
+            var that = $(this);
+            var index = that.index();
+            that.addClass('cur').siblings().removeClass('cur')
+                .parent().next().find('.query-results-data').eq(index).addClass('cur').siblings().removeClass('cur');
+            if(index == 0){
+                var myChart = echarts.init(document.getElementById('query-results-chart'));
+                myChart.setOption(option_five,true);
+            }
+        })
+    </script>
+</body>
+
+</html>

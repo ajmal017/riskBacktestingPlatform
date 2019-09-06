@@ -1,0 +1,25 @@
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+{% extends "base.html" %}
+{% block content %}
+{% include 'flash.html' %}
+<h1>Change Your Post</h1>
+	<form class="form-horizontal" action="{{ url_for('change',post_id=post_id)}}" method="post" name="change">
+	{{form.hidden_tag()}}
+	<div class="control-group">
+		<label class="control-label" for="title">标题:</label>
+		<div class="controls">
+			{{ form.title(maxlength = 64, class = "span5") }}
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="content">内容:</label>		   <div class="controls">
+			{{ form.content(cols = 64, rows = 4, class = "span5") }}
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="controls">
+		<input class="btn btn-primary" type="submit" value="保存">
+		</div>
+	</div>
+	</form>
+{% endblock %}

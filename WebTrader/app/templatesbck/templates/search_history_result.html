@@ -1,0 +1,33 @@
+﻿{% extends "base.html" %}
+{% block content %}
+
+<h2>  回测结果表格 </h2>
+	<table class="table table-bordered">
+    <tr>
+        <th>指标名称</th>
+        <th>最优方案</th>
+        <th>不对冲</th>
+		<th>单位套保</th>
+<!--<th>LastTradeDate</th>-->
+<!--<th>LossDays</th>-->
+<!--<th>ProfitDays</th>-->
+    </tr>
+        {% for i in u %}
+            <tr>
+                <td>{{ i[0] }}</td>
+                <td>{{ i[1] }}</td>
+                <td>{{ i[2] }}</td>
+				<td>{{ i[3] }}</td>
+
+            </tr>
+    {% endfor %}
+    </table>
+
+<h2>  图表展示 </h2>	
+	<li class="active"><a href="/Var">查看Var结果</a></li>
+	<li class="active"><a href="/Margin">查看保证金结果</a></li>
+	<li class="active"><a href="/ContractVol">查看合约手数结果</a></li>
+	<li class="active"><a href="/abc/NetValue">查看净值结果</a></li>
+	
+
+{% endblock %}

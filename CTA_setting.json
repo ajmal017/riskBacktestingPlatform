@@ -1,0 +1,12 @@
+[
+{
+        "className": "strategyHedge", 
+        "name": "strategyDemo_syt", 
+        "vtSymbol": [
+            "i1906", 
+            "i1910"
+        ], 
+        "author": "syt"
+}
+]
+

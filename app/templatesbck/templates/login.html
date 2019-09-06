@@ -1,0 +1,13 @@
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+{% extends "base.html" %}
+{% block content %}
+{% include 'flash.html' %}
+<h1>登陆</h1>
+<form action="/login" method="post" name="login">
+	{{ form.hidden_tag() }}
+	<p>用户名: </p><p> {{ form.username }}</p>
+	<p>密码: </p><p>{{ form.password }}</p>
+	<p>记住我？ {{ form.remember_me }}</p>
+	<p>{{ form.submit }}</p>
+</form>
+{% endblock %}

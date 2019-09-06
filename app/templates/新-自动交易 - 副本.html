@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>华泰期货</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css" href="webcss/layout.css" />
+<script type="text/javascript" src="webjs/jquery-1.12.4.min.js"></script>
+
+    <link href="https://cdn.bootcss.com/element-ui/2.0.11/theme-chalk/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="./webcss/layout-special.css">
+</head>
+
+<body>
+    <div class="page-sidebar">
+    <div class="page-sidebar-logo">
+        <a href="javascript:;">
+            <img src="./webimages/0-logo.png" alt="华泰期货">
+        </a>
+    </div>
+    <ul class="page-sidebar-list">
+        <li>
+            <h6>
+                <a href="./个人主页.html">个人主页</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="./现货查询.html">现货查询</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="javascript:;">自动交易</a>
+            </h6>
+            <ul class="page-sidebar-select">
+                <li>
+                    <p>
+                        <a href="./新-自动交易.html">手动交易</a>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <a href="./新-程序化交易.html">程序化交易</a>
+                    </p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h6>
+                <a href="./套保回测.html">套保回测</a>
+            </h6>
+        </li>
+    </ul>
+</div>
+    <div class="page-header">
+    <div class="page-header-box">
+        <div class="page-header-img">
+            <a href="javascript:;">
+                <img src="./webimages/head-portrait.jpg" alt="个人头像">
+            </a>
+        </div>
+        <div class="page-header-list">
+            <span>Adamne</span>
+            <ul class="page-header-menu">
+                <li>
+                    <a href="javascript:;">修改密码</a>
+                </li>
+                <li>
+                    <a href="javascript:;">安全退出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+    <div class="page-container">
+        <div id="app">
+            <el-dialog title="风险提示">
+                <el-form :model="loginForm">
+                    <el-form-item label="该系统表现会受到网络速度等客观因素影响，如有异常请及时联系">
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button type="primary" @click="onLogin">确 定</el-button>
+                </div>
+            </el-dialog>
+            <!--<el-dialog title="请登录" :visible.sync="LoginFormVisible" :close-on-click-modal="false" :show-close ="false" :lock-scroll="true">-->
+            <!--<el-form :model="loginForm">-->
+            <!--<el-form-item label="用户名" :label-width="formLabelWidth">-->
+            <!--<el-input v-model="loginForm.user" auto-complete="off"></el-input>-->
+            <!--</el-form-item>-->
+            <!--<el-form-item label="密码" :label-width="formLabelWidth">-->
+            <!--<el-input v-model="loginForm.pwd" auto-complete="off" type="password"></el-input>-->
+            <!--</el-form-item>-->
+            <!--</el-form>-->
+            <!--<div slot="footer" class="dialog-footer">-->
+            <!--<el-button type="primary" @click="onLogin">确 定</el-button>-->
+            <!--</div>-->
+            <!--</el-dialog>-->
+            <template>
+                <el-container>
+                    <el-aside class="leftTrade" style="width: 280px;">
+                        <div class="commontitle">
+                            <h2>手动交易</h2>
+                        </div>
+                        <el-row>
+                            <el-form class="el-col el-col el-col-24" ref="form" :model="form" label-width="40px"
+                                show-message="true" inline-message="true" validate="formValidate">
+                                <div class="el-form-item">
+                                    <label class="el-form-item__label">代码</label>
+                                    <div class="el-form-item__content" style="margin-left: 40px;">
+                                        <div class="el-input--suffix el-input el-input-group el-input-group--append">
+                                            <input autocomplete="off" type="text" rows="2" validateevent="true"
+                                                clearable="true" class="el-input__inner" @keyup.enter="onSubscribe"
+                                                v-model="form.vtSymbol">
+                                            <div class="el-input-group__append">
+                                                <button type="button" class="el-button el-button--default"
+                                                    @click="onSubscribe">
+                                                    <!-- <i class="el-icon-plus"></i> -->订阅</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <el-form-item label="方向类型">
+                                    <el-select v-model="form.direction" placeholder="请选择">
+                                        <el-option label="多" value="DIRECTION_LONG"></el-option>
+                                        <el-option label="空" value="DIRECTION_SHORT"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="开平">
+                                    <el-select v-model="form.offset" placeholder="请选择">
+                                        <el-option label="开仓" value="OFFSET_OPEN"></el-option>
+                                        <el-option label="平仓" value="OFFSET_CLOSETODAY"></el-option>
+                                        <el-option label="平昨" value="OFFSET_CLOSEYESTERDAY"></el-option>
+                                        <el-option label="平今" value="OFFSET_CLOSETODAY"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                                <el-form-item label="价格">
+                                    <el-input class="el-input--suffix" v-model="form.lastPrice"></el-input>
+                                    <p>卖一 {{leftTrade.askPrice1}} {{leftTrade.askVolume1}}</p>
+                                </el-form-item>
+                                <el-form-item label="数量">
+                                    <el-input-number :min="1" class="el-input--suffix" v-model="form.volume"></el-input-number>
+                                    <p>最新 {{leftTrade.lastPrice}} {{leftTrade.priceRatio}}</p>
+                                </el-form-item>
+                                <el-form-item label="价格类型">
+                                    <el-select v-model="form.priceType" placeholder="请选择">
+                                        <el-option label="限价" value="PRICETYPE_LIMITPRICE"></el-option>
+                                        <el-option label="市价" value="PRICETYPE_MARKETPRICE"></el-option>
+                                        <el-option label="FAK" value="PRICETYPE_FAK"></el-option>
+                                        <el-option label="FOK" value="PRICETYPE_FOK"></el-option>
+                                    </el-select>
+                                    <p>买一 {{leftTrade.bidPrice1}} {{leftTrade.bidVolume1}}</p>
+                                </el-form-item>
+                                <!--<el-form-item label="交易接口">
+                                            <el-select v-model="form.region" placeholder="请选择">
+                                                <el-option label="区域一" value="shanghai"></el-option>
+                                                <el-option label="区域二" value="beijing"></el-option>
+                                            </el-select>
+                                            <p>买二</p>
+                                        </el-form-item>-->
+                            </el-form>
+                        </el-row>
+                        <el-row class="body-left__btn">
+                            <div class="el-col el-col-18">
+                                <el-button class="el-col el-col-24" type="primary" @click="onSubmit" v-loading="loading.order">发单</el-button>
+                                <el-button class="el-col el-col-24" @click="dAllOrder">全撤</el-button>
+                                <el-button class="el-col el-col-24" @click="gGateway">连接CTP</el-button>
+                            </div>
+                        </el-row>
+                        <el-row class="body-left__connection">
+                            <div>socket服务器连接：
+                                <p>{{connection}}</p>
+                            </div>
+                            <a class="navbar-brand" href="/#">返回主页</a>
+                        </el-row>
+                    </el-aside>
+                    <el-main>
+                        <el-row :gutter="10" style="margin: 0;">
+                            <el-col :span="24">
+                                <template>
+                                    <el-table :data="eTick" :height="table_height" @cell-click="clickTick"
+                                        border style="width: 100%">
+                                        <el-table-column sortable fixed prop="symbol" width="80" label="合约代码">
+                                        </el-table-column>
+                                        <!--<el-table-column sortable prop="available" label="名称">
+                                                </el-table-column>-->
+                                        <el-table-column sortable prop="lastPrice" label="最新价">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="preClosePrice" label="昨收盘">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="volume" label="成交量">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="openInterest" label="持仓量">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="openPrice" label="开盘价">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="highPrice" label="最高价">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="lowPrice" label="最低价">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="bidPrice1" label="买一价">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="bidVolume1" label="买一量">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="askPrice1" label="卖一价">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="askVolume1" label="卖一量">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="date" label="日期">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="gatewayName" label="接口">
+                                        </el-table-column>
+                                    </el-table>
+                                </template>
+                            </el-col>
+                            <el-col :span="24">
+                                <template>
+                                    <el-table :data="order" :height="table_height" border @cell-dblclick="dOrder">
+                                        <el-table-column fixed sortable prop="orderID" width="80" label="委托编号">
+                                        </el-table-column>
+                                        <el-table-column sortable width="80" prop="symbol" label="合约代码">
+                                        </el-table-column>
+                                        <!--<el-table-column sortable width="80" prop="name" label="名称">
+                                                </el-table-column>-->
+                                        <el-table-column sortable width="80" prop="direction" label="方向">
+                                        </el-table-column>
+                                        <el-table-column sortable width="80" prop="offset" label="开平">
+                                        </el-table-column>
+                                        <el-table-column sortable width="80" prop="price" label="价格">
+                                        </el-table-column>
+                                        <el-table-column sortable width="80" prop="totalVolume" label="委托数量">
+                                        </el-table-column>
+                                        <el-table-column sortable width="80" prop="tradedVolume" label="成交数量">
+                                        </el-table-column>
+                                        <el-table-column sortable width="80" prop="status" label="委托状态">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="address" label="委托时间">
+                                        </el-table-column>
+                                        <el-table-column sortable prop="cancelTime" label="撤销时间">
+                                        </el-table-column>
+                                        <el-table-column sortable width="80" prop="gatewayName" label="接口">
+                                        </el-table-column>
+                                    </el-table>
+                                </template>
+                            </el-col>
+                            <el-col :span="24">
+                                <el-row :gutter="10">
+                                    <el-col :span="12">
+                                        <template>
+                                            <el-tabs v-model="activeTabLeft" type="card" @tab-click="handleTabLeft">
+                                                <el-tab-pane label="成交" name="trade">
+                                                    <el-table :data="trade" :height="table_height" border style="width: 100%">
+                                                        <el-table-column fixed sortable width="80" prop="tradeID"
+                                                            label="成交编号">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="orderID"
+                                                            label="委托编号">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="symbol"
+                                                            label="合约代码">
+                                                        </el-table-column>
+                                                        <!--<el-table-column sortable width="80" prop="askPrice3" label="名称">
+                                                                </el-table-column>-->
+                                                        <el-table-column sortable width="80" prop="direction"
+                                                            label="方向">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="offset"
+                                                            label="开平">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="price" label="价格">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="volume"
+                                                            label="成交量">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="tradeTime"
+                                                            label="成交时间">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="gatewayName"
+                                                            label="接口">
+                                                        </el-table-column>
+                                                    </el-table>
+                                                </el-tab-pane>
+                                                <el-tab-pane label="错误" name="error">
+                                                    <el-table :data="error" :height="table_height" border style="width: 100%">
+                                                        <el-table-column sortable prop="errorTime" width="80"
+                                                            label="错误时间">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="errorID"
+                                                            label="错误代码">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="gatewayName"
+                                                            label="接口">
+                                                        </el-table-column>
+                                                        <el-table-column sortable prop="errorMsg" label="错误信息">
+                                                        </el-table-column>
+                                                    </el-table>
+                                                </el-tab-pane>
+                                                <el-tab-pane label="日志" name="log">
+                                                    <el-table :data="log" :height="table_height" border style="width: 100%">
+                                                        <el-table-column fixed width="80" sortable prop="logTime"
+                                                            label="时间">
+                                                        </el-table-column>
+                                                        <el-table-column sortable prop="logContent" label="内容">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="140" prop="gatewayName"
+                                                            label="接口">
+                                                        </el-table-column>
+                                                    </el-table>
+                                                </el-tab-pane>
+                                            </el-tabs>
+                                        </template>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <template>
+                                            <el-tabs v-model="activeTabRight" type="card" @tab-click="handleTabLeft">
+                                                <el-tab-pane label="持仓" name="position">
+                                                    <el-table :data="position" :height="table_height" border
+                                                        style="width: 100%">
+                                                        <el-table-column fixed sortable prop="symbol" width="80"
+                                                            label="合约代码">
+                                                        </el-table-column>
+                                                        <!--<el-table-column sortable width="80" prop="" label="名称">
+                                                                </el-table-column>-->
+                                                        <el-table-column sortable width="80" prop="direction"
+                                                            label="方向">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="position"
+                                                            label="持仓">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="ydPosition"
+                                                            label="昨持仓">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="frozen"
+                                                            label="冻结量">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="price" label="价格">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="gatewayName"
+                                                            label="接口">
+                                                        </el-table-column>
+                                                    </el-table>
+                                                </el-tab-pane>
+                                                <el-tab-pane label="资金" name="money">
+                                                    <el-table :data="account" :height="table_height" width="80"
+                                                        border style="width: 100%">
+                                                        <el-table-column fixed sortable width="80" prop="accountID"
+                                                            label="账户">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="preBalance"
+                                                            label="昨结">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="balance"
+                                                            label="净值">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="available"
+                                                            label="可用">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="commission"
+                                                            label="手续费">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="margin"
+                                                            label="保证金">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="closeProfit"
+                                                            label="平仓盈亏">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="positionProfit"
+                                                            label="持仓盈亏">
+                                                        </el-table-column>
+                                                        <el-table-column sortable width="80" prop="gatewayName"
+                                                            label="接口">
+                                                        </el-table-column>
+                                                    </el-table>
+                                                </el-tab-pane>
+                                            </el-tabs>
+                                        </template>
+                                    </el-col>
+                                </el-row>
+                            </el-col>
+                        </el-row>
+                    </el-main>
+                </el-container>
+            </template>
+        </div>
+    </div>
+    <div class="page-footer">
+    <p>Copyright&copy;2016-2018 Huatai Futures All Rights Reserved</p>
+</div>
+    <script type="text/javascript" src="./webjs/layout.js"></script>
+    <!-- 自由交易页面js -->
+    <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.slim.js"></script>
+    <!-- 先引入 Vue -->
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.17.1/axios.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://cdn.bootcss.com/element-ui/2.1.0/index.js"></script>
+    <!-- 引入自己的js -->
+    <script src="./webjs/layout-special.js"></script>
+</body>
+
+</html>

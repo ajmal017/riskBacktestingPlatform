@@ -1,0 +1,181 @@
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>华泰期货</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+
+</head>
+
+<!--<body onload='setup()'>-->
+<body>
+    <div class="page-sidebar">
+    <div class="page-sidebar-logo">
+        <a href="javascript:;">
+            <img src="/static/img/0-logo.png" alt="华泰期货">
+        </a>
+    </div>
+    <ul class="page-sidebar-list">
+        <li>
+            <h6>
+                <a href="{{ url_for('index') }}">个人主页</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('search')}}">现货查询</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                 <a href="javascript:;">自动交易</a>
+            </h6>
+            <ul class="page-sidebar-select">
+                <li>
+                    <p>
+                        <a href="{{ url_for('trader')}}">手动交易</a>
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        <a href="javascript:;">程序化交易</a>
+                    </p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('paramInput')}}">回测录入</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('accountManage')}}">多账号管理</a>
+            </h6>
+        </li>
+        <li>
+            <h6>
+                <a href="{{ url_for('upload')}}">账号信息上传</a>
+            </h6>
+        </li>
+    </ul>
+</div>
+    <div class="page-header">
+    <div class="page-header-box">
+        <div class="page-header-img">
+            <a href="javascript:;">
+                <img src="/static/img/head-portrait.jpg" alt="个人头像">
+            </a>
+        </div>
+        <div class="page-header-list">
+            <span>Adamne</span>
+            <ul class="page-header-menu">
+                <li>
+                    <a href="javascript:;">修改密码</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('logout') }}">安全退出</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+    <div class="page-container back-result">
+        <div class="commontitle">
+            <h2>回测结果</h2>
+        </div>
+        <div class="back-result-table">
+            <h3>回测结果表格</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>指标名称</th>
+                        <th>最优方案</th>
+                        <th>不对冲</th>
+                        <th>单位套保</th>
+                    </tr> 
+		</thead> 
+		<tbody>
+		    <tr>
+		        <td>年化收益率</td>
+			<td>{{ u[0][0] }}</td>
+	                <td>{{ u[0][1] }}</td>
+	                <td>{{ u[0][2] }}</td>	
+		    </tr>
+                    <tr>
+                        <td>年化波动率</td>
+                        <td>{{ u[1][0] }}</td>
+                        <td>{{ u[1][1] }}</td>
+                        <td>{{ u[1][2] }}</td>
+                    </tr>
+                    <tr>
+                        <td>首次交易日</td>
+                        <td>{{ u[2][0] }}</td>
+                        <td>{{ u[2][1] }}</td>
+                        <td>{{ u[2][2] }}</td>
+                    </tr>
+                    <tr>
+                        <td>套保效果</td>
+                        <td>{{ u[3][0] }}</td>
+                        <td>{{ u[3][1] }}</td>
+                        <td>{{ u[3][2] }}</td>
+                    </tr>
+		    <tr>
+                        <td>最后交易日</td>
+                        <td>{{ u[4][0] }}</td>
+                        <td>{{ u[4][1] }}</td>
+                        <td>{{ u[4][2] }}</td>
+                    </tr>
+		    <tr>
+                        <td>亏损天数</td>
+                        <td>{{ u[5][0] }}</td>
+                        <td>{{ u[5][1] }}</td>
+                        <td>{{ u[5][2] }}</td>
+                    </tr>
+		    <tr>
+                        <td>盈利天数</td>
+                        <td>{{ u[6][0] }}</td>
+                        <td>{{ u[6][1] }}</td>
+                        <td>{{ u[6][2] }}</td>
+                    </tr>
+                    </tbody>
+            </table>
+        </div>
+	
+	<div>
+        <div class="back-result-chart">
+            <h3>图表展示</h3>
+	     <div class="back-result-block">
+		<iframe width="100%" height="100%" frameborder="0" scrolling="no" src="/Var"></iframe>
+	     </div>
+	     <div class="back-result-block">
+		<iframe width="100%" height="100%" frameborder="0" scrolling="no" src="/ContractVol"></iframe>
+	     </div>
+	     <div class="back-result-block">
+		<iframe width="100%" height="100%" frameborder="0" scrolling="no" src="/NetValue"></iframe>
+	     </div>
+	     <div class="back-result-block">
+		<iframe width="100%" height="100%" frameborder="0" scrolling="no" src="/Margin"></iframe>
+	     </div>
+	    
+	</div>
+                      
+
+            
+        </div>
+    </div>
+    <div class="page-footer">
+    <p>Copyright&copy;2016-2018 Huatai Futures All Rights Reserved</p>
+</div>
+<script type="text/javascript" src="/static/js/layout.js"></script>

@@ -1,0 +1,66 @@
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+<meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>华泰期货</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
+<link rel="stylesheet" type="text/css" href="/static/css/layout.css" />
+<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+
+</head>
+
+<body>
+    <div class="login-header">
+    <div class="commonweb">
+        <div class="login-header-logo">
+            <a href="javascript:;">
+                <img src="/static/webimages/login-colour.jpg" alt="华泰期货">
+            </a>
+        </div>
+        <div class="login-header-link">
+            <a href="javascript:;">华泰期货官网首页</a>
+        </div>
+    </div>
+</div>
+    <div class="login-main">
+        <div class="commonweb">
+            <div class="login-main-img">
+                <img src="/static/webimages/img-1.jpg" alt="登录">
+            </div>
+            <form class="login-main-form" action="/login" method="post" name="login" >
+                <h3>登录</h3>
+                {{ form.hidden_tag() }}
+                <div class="login-main-bit login-main-name">
+                    <label for="username"></label>
+                    <input type="text" name="username" id="username" placeholder="请输入您的用户名..."/>
+                    <i></i>
+                </div>
+                <div class="login-main-bit login-main-password">
+                    <label for="password"></label>
+                    <input type="password" name="password" id="password" placeholder="请输入您的密码..."/>
+                </div>
+                <div class="login-main-checkbox">
+                    <p>没有账号？去<a href="{{ url_for('sign_up') }}">注册</a></p>
+                    <input type="checkbox" name="remember" value="remember" checked="checked"/>记住账号
+                </div>
+                <div class="login-main-btn">
+                    <input type="submit" value="立即登录">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="login-footer">
+    <div class="commonweb">
+        <p>Copyright&copy;2016-2018 Huatai Futures All Rights Reserved</p>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/layout.js"></script>
+</body>
+
+</html>
